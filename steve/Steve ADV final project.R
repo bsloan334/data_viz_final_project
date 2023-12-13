@@ -45,19 +45,20 @@ ui <- fluidPage(
     h2 { font-size: 32px !important; } /* Increase the size for the title */
   "))),
   
-  # Include the logo image
-  div(style = "text-align: right;", img(src = "advbrand.png", height = "100px")), #haven't gotten this to load
+  # Title
   
-  titlePanel("South Bend in Focus", windowTitle = "South Bend in Focus"), # Page title
+  titlePanel("South Bend in Focus", windowTitle = "South Bend in Focus"), # Page title 
   
   # Descriptive paragraphs for the dashboard
-  h3("Dashboard Overview"),
-  p("This tool tracks and analyzes violation trends in South Bend, Indiana. Data sources come from the City of South Bend's 311 Calls, Code Enforcement Cases, Census Data, and Public Facilities datasets to provide insights into city complaint and violation patterns, identify areas of concern, and inform violation prevention strategies."),
+  h3("Overview"),
+ 
+  p("Violations By The Numbers: This display shows a variety of data visualizations for property violation trends in South Bend, Indiana. Data sources come from the City of South Bend's Code Enforcement Cases over time and by type of property violation. Code violation outcomes and trends visualize resource allocation requirements. The data presented allows for the identification of patterns and peak periods of code violations, which can inform strategic planning for enforcement and preventive measures."), 
+    
+  p("By analyzing the breakdown of resolutions carried out by the city versus private entities, decision-makers can infer the effectiveness of current policies and community engagement. Allocation of resources can be optimized based on these insights to target high-violation areas or times of the year, ensuring that efforts are proactive rather than reactive. Understanding these trends is crucial for city planning, budgeting for enforcement activities, and fostering public-private partnerships that address the underlying causes of property violations."),
   
-  p("Violations By The Numbers: This display shows a variety of charts and graphs for property violation trends over time and by type of property violation. Code violation outcomes and trends visualize resource allocation requirements."),
   
   # Selector for a three-year block of data
-  selectInput("yearBlock", "Select Year Block:",
+  selectInput("yearBlock", "Historical Blocks & Current Year View:",
               choices = seq(from = 2013, to = max(format(as.Date(code_enforcement_cleaned$Date_of_Last_Compliance), "%Y")), by = 3)),
   
   # Plot for Violations Over Time
@@ -96,7 +97,7 @@ server <- function(input, output) {
   output$violations_by_type <- renderPlot({
     ggplot(filtered_data(), aes(x = Last_Compliance_Type, fill = Last_Compliance_Type)) +
       geom_bar() +
-      scale_fill_manual(values = c("Demolished" = "cyan", "Repaired" = "magenta", "Deconstructed" = "green", "Unknown" = "grey"),
+      scale_fill_manual(values = c("Demolished" = "skyblue", "Repaired" = "lightcoral", "Deconstructed" = "plum", "Unknown" = "grey"),
                         labels = c("Demolished", "Repaired", "Deconstructed", "Unknown")) +
       theme_minimal() +
       theme(legend.title = element_text(size = 18), legend.text = element_text(size = 16)) + # Increase legend text size
@@ -107,7 +108,7 @@ server <- function(input, output) {
   output$violations_by_completed_by <- renderPlot({
     ggplot(filtered_data(), aes(x = Last_Compliance_Completed_By, fill = Last_Compliance_Completed_By)) +
       geom_bar() +
-      scale_fill_manual(values = c("City" = "green", "Private" = "blue", "Unknown" = "grey"),
+      scale_fill_manual(values = c("City" = "lightcoral", "Private" = "skyblue", "Unknown" = "grey"),
                         labels = c("City", "Private", "Unknown")) +
       theme_minimal() +
       theme(legend.title = element_text(size = 18), legend.text = element_text(size = 16)) + # Increase legend text size
