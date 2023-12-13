@@ -3,7 +3,9 @@ library(shiny)
 library(leaflet)
 library(tidyverse)
 library(sf)
-library(viridis)
+
+# using RData 
+# load("example.RData")
 
 # Base file path
 basepath <- "./Data-Viz-2023-Fall/FinalProject/"
