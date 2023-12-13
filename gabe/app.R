@@ -178,9 +178,9 @@ ui_tab4 <- fluidPage(
     
     mainPanel(
       tabsetPanel(
-        tabPanel("Recommendation 1"),
-        tabPanel("Recommendation 2"),
-        tabPanel("Recommendation 3")
+        tabPanel("Recommendation 1", textOutput("rec1")),
+        tabPanel("Recommendation 2", textOutput("rec2")),
+        tabPanel("Recommendation 3", textOutput("rec3"))
       )
 
     )
@@ -337,6 +337,11 @@ server <- function(input, output) {
              yaxis = list(title = 'Average Duration (seconds)'),
              showlegend = FALSE)
   })
+  
+  ##### TAB 4
+  output$rec1 <- renderText({"Highlight specific neighborhood for revitalization and housing funding"})
+  output$rec2 <- renderText({"Make some inference on types of calls that should be routed elsewhere (street taskforce?)"})
+  output$rec3 <- renderText({"Consider programs that involve multiple neighborhoods/parks"})
   
   
   
