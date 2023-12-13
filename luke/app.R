@@ -17,17 +17,28 @@ library(plotly)
 # Load the 311_Phone_Call_Log_Mod data
 #call_data <- read.csv("311_Phone_Call_Log_Mod.csv", check.names = F, sep = ",")
 
+#create base path and then create a few paths that reference the specific CSVs
+
 #omitting NAs
 call_data <- na.omit(call_data)
-
-unique_departments <- unique(call_data$Department)
-cat("Unique Departments:", paste(unique_departments, collapse = ", "), "\n")
-
 
 
 # Define UI for application
 ui <- fluidPage(
   theme = shinytheme("superhero"),
+  h3("Tab Overview"),
+  p("This tab looks at 311 call data to understand what the community is concerned about. 
+    It also looks at the calls the residents of South Bend spend the most time on and what departments might be the most strained. 
+    It also sheds some light on calls South Bend get the most of, as time on the call doesn't necessarily represent a higher volume of issues.
+    
+    The histogram here shows how our call duration frequency is skewed right. There are a few significant outliers with some calls reaching over 50 minutes.
+    Overall, most the calls are between 1-100 seconds.
+    
+    The Call Duration by Call Type graph shows a large number of categories of calls. There are two call types that are within the top 5 average durations that directly concern the Mayor.
+    
+    The average Call Time by Department helps us identify smaller call times that might be quicker questions to answer with an automated messaging system.
+    Longer call durations for departments might be indicative of areas that might be strained with time spent on calls. There also could be areas of efficiency improvement."),
+  
   titlePanel("311 Phone Call Log Data"),
   
   sidebarLayout(
@@ -35,6 +46,7 @@ ui <- fluidPage(
       sliderInput("durationRange", "Select Duration Range for 'Call Duration' Histogram:",
                   min = 0, max = max(call_data$duration_Seconds),
                   value = c(0, max(call_data$duration_Seconds))),
+      
       sliderInput("topN", "Select Number of 'Call Types' to Display", value = 10, min = 1, max = 50)
     ),
     
@@ -45,6 +57,8 @@ ui <- fluidPage(
     )
   )
 )
+
+
 
 # Define server logic
 server <- function(input, output) {
@@ -76,7 +90,7 @@ server <- function(input, output) {
             y = ~top_called_about$Avg_Duration,
             type = 'bar', marker = list(color = 'skyblue')) %>%
       layout(title = 'Call Duration by Call Type',
-             xaxis = list(title = 'Called Type'),
+             xaxis = list(title = 'Call Type'),
              yaxis = list(title = 'Average Duration (seconds)'),
              showlegend = FALSE)
   })
@@ -101,3 +115,8 @@ server <- function(input, output) {
 
 # Run the application
 shinyApp(ui = ui, server = server)
+
+#Plot Takeaways
+
+# The histogram here shows how our call duration frequency is skewed right. 
+# The 
