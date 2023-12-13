@@ -12,6 +12,7 @@ library(shinythemes)
 library(tidyverse)
 library(lubridate)
 library(plotly)
+library(leaflet)
 library(sf)
 
 ##### INDIVIDUAL TAB SETTINGS
@@ -65,19 +66,28 @@ ui_tab1 <- fluidPage(
   h3("Tab Overview"),
   p("This tab shows a variety of charts and graphs for property violation trends over time and by type of property violation. Code violation outcomes and trends visualize resource allocation requirements."),
   
-  # Selector for a three-year block of data
-  selectInput("yearBlock", "Select Year Block:",
-              choices = seq(from = 2013, to = max(format(as.Date(code_enforcement_cleaned$Date_of_Last_Compliance), "%Y")), by = 3)),
+  sidebarLayout(
+    
+    sidebarPanel(
+      # Selector for a three-year block of data
+      selectInput("yearBlock", "Select Year Block:",
+                  choices = seq(from = 2013, to = max(format(as.Date(code_enforcement_cleaned$Date_of_Last_Compliance), "%Y")), by = 3)),
+    ),
+    
+    mainPanel(
+      # Plot for Violations Over Time
+      h3("Violations Over Time"),
+      plotOutput("violations_over_time"),
+      
+      # Plots for Violations by Type and by Entity with headers
+      h3("Violations by Type"),
+      plotOutput("violations_by_type"),
+      
+      h3("Violations by Entity Completing the Compliance"),
+      plotOutput("violations_by_completed_by")
+    )
+  )
   
-  # Plot for Violations Over Time
-  plotOutput("violations_over_time"),
-  
-  # Plots for Violations by Type and by Entity with headers
-  h3("Violations by Type"),
-  plotOutput("violations_by_type"),
-  
-  h3("Violations by Entity Completing the Compliance"),
-  plotOutput("violations_by_completed_by")
 )
 
 # Wrap the second application in a tabPanel
@@ -150,20 +160,52 @@ ui_tab3 <- fluidPage(
   )
 )
 
-# Wrap the first application in a tabPanel
+# Wrap the third application in a tabPanel
 tab3 <- tabPanel("South Bend's Concerns", ui_tab3)
 
 ### TAB 4: "What Comes Next? Our Strategies and Recommendations"
 
+# Define UI for application
+ui_tab4 <- fluidPage(
+  theme = shinytheme("superhero"),
+  
+  h3("What Comes Next?"),
+  p("So, what do we recommend? What makes sense for the city of South Bend?"),
+  
+  sidebarLayout(
+    sidebarPanel(
+    ),
+    
+    mainPanel(
+      tabsetPanel(
+        tabPanel("Recommendation 1", textOutput("rec1")),
+        tabPanel("Recommendation 2", textOutput("rec2")),
+        tabPanel("Recommendation 3", textOutput("rec3"))
+      )
+
+    )
+  )
+)
+
+# Wrap the fourth application in a tabPanel
+tab4 <- tabPanel("Our Strategies and Recommendations", ui_tab4)
+
 ##### GLOBAL APPLICATION SETTINGS
 
-ui <- fluidPage(
+ui <- navbarPage(
     theme = shinytheme("superhero"),
     
     # Application title
-    titlePanel("South Bend in Focus: Addressing the City’s Concerns and Code Violations"),
+    title = "South Bend in Focus: Addressing the City’s Concerns and Code Violations",
     
-    tags$head(tags$style(HTML("
+    # Create tabs with the for navbar
+    intro,
+    tab1,
+    tab2,
+    tab3,
+    tab4,
+    
+    footer = tags$head(tags$style(HTML("
     body, label, input, button, select, p, h1, h2, h3, h4, h5 {
       font-size: 18px !important;
     }
@@ -177,14 +219,7 @@ ui <- fluidPage(
     border-radius: 10px; /* Optional: Add rounded corners */
     }
   "))),
-    
-    # Create tabs with the tabsetPanel function
-    tabsetPanel(
-      intro,
-      tab1,
-      tab2,
-      tab3
-    )
+
     
 )
 
@@ -302,6 +337,11 @@ server <- function(input, output) {
              yaxis = list(title = 'Average Duration (seconds)'),
              showlegend = FALSE)
   })
+  
+  ##### TAB 4
+  output$rec1 <- renderText({"Highlight specific neighborhood for revitalization and housing funding"})
+  output$rec2 <- renderText({"Make some inference on types of calls that should be routed elsewhere (street taskforce?)"})
+  output$rec3 <- renderText({"Consider programs that involve multiple neighborhoods/parks"})
   
   
   
