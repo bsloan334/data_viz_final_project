@@ -35,21 +35,15 @@ ui_intro <- fluidPage(
     and violation patterns, identify areas of concern, and inform violation prevention \
     strategies.",
     br(), br(),
-    "South Bend, nestled in the heart of northwest Indiana, is a city brimming with history, \
-    diversity, and a unique blend of tradition and innovation. Renowned for its deep \
-    ties to the University of Notre Dame and its picturesque riverfront, South Bend boasts \
-    a vibrant community and a rich cultural tapestry.",
-    br(),br(),
-    "With this dashboard, we seek to pinpoint areas that may \
-    require targeted interventions or increased municipal attention. By scrutinizing this \
-    data, city officials can identify patterns of non-compliance, enabling them to proactively \
-    address issues and maintain the city's high standards for residential living.",
+    "• ", strong("Building Code Violations"), ": These could involve issues with the structural integrity of buildings, unsafe conditions, failure to comply with construction permits, or not adhering to the local building codes and regulations.",
     br(), br(),
-    "By leveraging this dashboard, South Bend can take proactive steps in optimizing its resources, \
-    implementing targeted improvements, and creating sustainable urban environments that align \
-    with the evolving needs of its residents. Ultimately, the careful examination of \
-    property-related data plays a pivotal role in shaping South Bend's trajectory, \
-    ensuring that it remains a thriving and resilient community for generations to come.")
+    "• ", strong("Health and Safety Violations"), ": Properties may be cited for violations that pose health and safety risks to occupants or the public, such as poor sanitation, presence of hazardous materials, or pest infestations.",
+    br(), br(),
+    "• ", strong("Maintenance Violations"), ": These might include neglected property maintenance, such as broken windows, dilapidated structures, overgrown yards, or accumulation of trash which could also be indicative of vacancy or abandonment.",
+    br(), br(),
+    "• ", strong("Zoning and Land Use Violations"), ": This could encompass unauthorized uses of property, such as operating a business in a residentially zoned area, or making modifications to land or structures without proper approvals.",
+    br(), br(),
+    "• ", strong("Environmental Violations"), ": Issues that affect the environment, such as improper disposal of waste, illegal dumping, or other actions that could harm the ecosystem.")
   
 )
 
@@ -287,7 +281,7 @@ ui_tab4 <- fluidPage(
                  p("In examining the average call duration categories received by South Bend's 311 lines, it is \
                  readily apparent that two categories stand out above the rest - Parks-Maintenance and Public Works.",
                    br(), br(),
-                   "To ensure that these calls are both meaning and efficient, it would be worthwhile to further investigate \
+                   "To ensure that these calls are both meaningful and efficient, it would be worthwhile to further investigate \
                    what types of requests/concerns are being voiced, how frequently each concern is brought up, and what \
                    pathways are identified to go from call to action.")),
         
